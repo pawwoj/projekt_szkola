@@ -20,12 +20,26 @@ public class Main {
         String firstName;
         String lastName;
         String indexNumber;
-      while (true){
+        List<Student> studentList = new ArrayList<>();
+        int i = 0;
+        /*
+        Zadanie ->
+        W nowym pakiecie (wymysl dobra nazwe)
+        Stworz klase ktora bedzie przechowywac w dowolnej kolekcji studentow, ktorych dodajesz w main
+        Niech ta klasa posiada dwie metody, jedna do dodawania studentow, druga do wyspisywania studentow
+        *** -> napisz do tych dwoch metod po jednym podstawowym tescie
+         */
+      while (i < 3){
           firstName = scanner.nextLine();
           lastName = scanner.nextLine();
           indexNumber = scanner.nextLine();
           Student student = new Student(firstName, lastName, indexNumber);
-          System.out.println(student);
+          studentList.add(student);
+          i++;
+
+          if(i == 2){
+              System.out.println(studentList);
+          }
       }
         /*List<Integer> pierwszaLista = new ArrayList<>();
         pierwszaLista.add(1);
