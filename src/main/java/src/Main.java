@@ -1,20 +1,31 @@
 package src;
 
 import domowa.praca.PracaDomowa;
+import model.Student;
 
 import java.util.*;
-
+/*
+ 1. Wyrzuc kod z poprzednich zajec calkowicie do klasy PracaDomowa
+ */
 // git branch nazwa_galezi - utworzenie nowej galezi
 // git checkout - przelaczenie sie na galaz
 // git push --set-upstream origin szablon-projektu -> wypychanie galazki za pierwszym razem to taka komenda
 // git add -u -> DODAJE DO COMMITA TYLKO EDYTOWANE PLIKI
 public class Main {
     public static void main(String[] args) {
+
+//        Student student1 = new Student("Jan", "Kowalski", "12345678");
+//        System.out.println(student1);
         Scanner scanner = new Scanner(System.in);
-        String s;
+        String firstName;
+        String lastName;
+        String indexNumber;
       while (true){
-          s = scanner.nextLine();
-          System.out.println("Twoja zmienna:" + s);
+          firstName = scanner.nextLine();
+          lastName = scanner.nextLine();
+          indexNumber = scanner.nextLine();
+          Student student = new Student(firstName, lastName, indexNumber);
+          System.out.println(student);
       }
         /*List<Integer> pierwszaLista = new ArrayList<>();
         pierwszaLista.add(1);
