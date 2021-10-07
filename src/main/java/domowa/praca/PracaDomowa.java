@@ -12,7 +12,6 @@ public class PracaDomowa {
     List<Double> listaDouble = new ArrayList<>();
 
     public PracaDomowa() {
-
         listaIntegerow.add(5);
         listaIntegerow.add(2);
         listaIntegerow.add(8);
@@ -20,23 +19,10 @@ public class PracaDomowa {
         listaIntegerow.add(32);
 
         listaDouble.addAll(Arrays.asList(5.2, 6.8, 1.1, 2.2, 3.3));
-
-        //Zadeklaruj Liste Stringow, dodaj do niej kolekcje imion Tomek Ania Tomek Krzys Grzes
-        //Tomek metoda addAll, nastepnie usun wszystkich Tomkow z tej list
-
     }
 
-//    public void dodajeDoListyIntegerow5Liczb() {
-//
-//    }
-
     public void z1ForEachZListaIntegerI() {
-//      dodajeDoListyIntegerow5Liczb();
         listaIntegerow.forEach((integer -> System.out.println(integer)));
-//        for (Integer i : listaIntegerow) {
-//            System.out.println(i);
-//        }
-
     }
 
     public int z2ZwracaSumeLiczbZListyIntegerow() {
@@ -60,19 +46,18 @@ public class PracaDomowa {
     public void z4ListaStringowBezTomka() {
         listaStringow.addAll(Arrays.asList("Tomek", "Ania", "Tomek", "Krzys", "Grzes", "Tomek"));
         listaStringow.removeIf(imie -> (imie.equals("Tomek")));
-//        while (listaStringow.contains("Tomek")) {
-//            listaStringow.remove("Tomek");
-//        }
         System.out.println(listaStringow);
     }
 
     public List<String> z5ZwracaListeNajdlozszychImion() {
         List<String> listaNajdluzszychImion = new ArrayList<>();
         int max = 0;
+
         for (String imie : listaStringow) {
             if (imie.length() > max)
                 max = imie.length();
         }
+
         for (String imieMax : listaStringow) {
             if (imieMax.length() == max)
                 listaNajdluzszychImion.add(imieMax);
@@ -86,7 +71,6 @@ public class PracaDomowa {
     }
 
     public void z7WypisujeListeDoubleWKolejnosciRosnacej() {
-        // System.out.println(listaDouble);
         Collections.sort(listaDouble);
         System.out.println(listaDouble);
     }
@@ -120,6 +104,4 @@ public class PracaDomowa {
         }
         return listaZIndeksamiSzukanegoImienia;
     }
-
-
 }

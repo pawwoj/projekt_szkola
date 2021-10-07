@@ -7,9 +7,11 @@ import java.util.*;
 // git branch nazwa_galezi - utworzenie nowej galezi
 // git checkout - przelaczenie sie na galaz
 // git push --set-upstream origin szablon-projektu -> wypychanie galazki za pierwszym razem to taka komenda
+// git add -u -> DODAJE DO COMMITA TYLKO EDYTOWANE PLIKI
 public class Main {
     public static void main(String[] args) {
-        List<Integer> pierwszaLista = new ArrayList<>();
+
+        /*List<Integer> pierwszaLista = new ArrayList<>();
         pierwszaLista.add(1);
         pierwszaLista.add(3);
         pierwszaLista.add(5);
@@ -24,18 +26,17 @@ public class Main {
         pierwszaLista.remove(1);
         System.out.println(pierwszaLista);
 
-        // kolekejca niegeneryczna - moze przechowywac rozne typy
         List drugaLista = new ArrayList();
         drugaLista.add("Kot");
         drugaLista.add(1);
         drugaLista.add(1.0);
         System.out.println(drugaLista);
 
-        /*
+        *//*
         ArrayList - przechwouje elementy w dynamicznej tablicy (nie musisz podawac jej rozmiaru)
         dane w pamieci znajduja sie obok siebie
         -> ZAD01. Jaka jest roznica miedzy stos a sterta?
-         */
+         *//*
         List<String> trzeciaLista = new ArrayList<>();
         trzeciaLista.add("ALa");
         trzeciaLista.add("ma");
@@ -96,6 +97,6 @@ public class Main {
         System.out.println("Zadanie 10: Napisz metode ktora przyjmuje liste Stringow i zwraca listę (intow) indeksow wszystkich\n" +
                 "elementow na liscie, ktore sa takie same jak parametr metody np dla Listy Ania Krzys Ania\n" +
                 "Piotr Tomek Ania i imienia Ania output: to 0,2,5: " + listaDoZadania10 + "- Ola \n"
-                + pracaDomowa.z10ZwracaIndeksyZListyDlaPodanegoImienia(listaDoZadania10, "Ola"));
+                + pracaDomowa.z10ZwracaIndeksyZListyDlaPodanegoImienia(listaDoZadania10, "Ola"));*/
     }
 }
