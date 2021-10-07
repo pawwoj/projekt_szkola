@@ -10,7 +10,12 @@ import java.util.*;
 // git add -u -> DODAJE DO COMMITA TYLKO EDYTOWANE PLIKI
 public class Main {
     public static void main(String[] args) {
-
+        Scanner scanner = new Scanner(System.in);
+        String s;
+      while (true){
+          s = scanner.nextLine();
+          System.out.println("Twoja zmienna:" + s);
+      }
         /*List<Integer> pierwszaLista = new ArrayList<>();
         pierwszaLista.add(1);
         pierwszaLista.add(3);
