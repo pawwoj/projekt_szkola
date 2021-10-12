@@ -1,9 +1,10 @@
 package src;
 
-import domowa.praca.PracaDomowa;
+import collection.StudentStorage;
 import model.Student;
 
-import java.util.*;
+import java.io.IOException;
+
 /*
  1. Wyrzuc kod z poprzednich zajec calkowicie do klasy PracaDomowa
  */
@@ -11,122 +12,41 @@ import java.util.*;
 // git checkout - przelaczenie sie na galaz
 // git push --set-upstream origin szablon-projektu -> wypychanie galazki za pierwszym razem to taka komenda
 // git add -u -> DODAJE DO COMMITA TYLKO EDYTOWANE PLIKI
+
+/*
+Zadanie ->
+W nowym pakiecie (wymysl dobra nazwe)
+Stworz klase ktora bedzie przechowywac w dowolnej kolekcji studentow, ktorych dodajesz w main
+Niech ta klasa posiada dwie metody, jedna do dodawania studentow, druga do wyspisywania studentow
+*** -> napisz do tych dwoch metod po jednym podstawowym tescie
+ */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-//        Student student1 = new Student("Jan", "Kowalski", "12345678");
-//        System.out.println(student1);
-        Scanner scanner = new Scanner(System.in);
-        String firstName;
-        String lastName;
-        String indexNumber;
-        List<Student> studentList = new ArrayList<>();
-        int i = 0;
-        /*
-        Zadanie ->
-        W nowym pakiecie (wymysl dobra nazwe)
-        Stworz klase ktora bedzie przechowywac w dowolnej kolekcji studentow, ktorych dodajesz w main
-        Niech ta klasa posiada dwie metody, jedna do dodawania studentow, druga do wyspisywania studentow
-        *** -> napisz do tych dwoch metod po jednym podstawowym tescie
-         */
-      while (i < 3){
-          firstName = scanner.nextLine();
-          lastName = scanner.nextLine();
-          indexNumber = scanner.nextLine();
-          Student student = new Student(firstName, lastName, indexNumber);
-          studentList.add(student);
-          i++;
+        StudentStorage studentStorage = new StudentStorage();
+        String savePath = "src\\main\\resources\\save.txt";
+        String filtrPath = "src\\main\\resources\\filtr.txt";
+        String loadPath = "src\\main\\resources\\load.txt";
+        String nameToFiltr = "Alicja";
 
-          if(i == 2){
-              System.out.println(studentList);
-          }
-      }
-        /*List<Integer> pierwszaLista = new ArrayList<>();
-        pierwszaLista.add(1);
-        pierwszaLista.add(3);
-        pierwszaLista.add(5);
+        Student studentZ = new Student("Tomek", "Dorsz", "345345");
 
-        System.out.println(pierwszaLista);
-        System.out.println(Collections.max(pierwszaLista));
+        studentStorage.addStudentToList(studentZ);
+        studentStorage.addStudentToList("Alicja", "Nazwisko1", "242424");
+        studentStorage.addStudentToList("Marcin", "Nazwisko2", "6543654");
+        studentStorage.addStudentToList("Alicja", "Nazwisko9", "6546");
+        studentStorage.printStudentList();
 
-        for (Integer x : pierwszaLista) {
-            System.out.println(x);
-        }
+        studentStorage.saveListToFile(studentStorage.getStudentList(), savePath);
 
-        pierwszaLista.remove(1);
-        System.out.println(pierwszaLista);
+        studentStorage.addStudentToListFromTxtFile(studentStorage.getStudentList(), loadPath);
+        studentStorage.printStudentList();
 
-        List drugaLista = new ArrayList();
-        drugaLista.add("Kot");
-        drugaLista.add(1);
-        drugaLista.add(1.0);
-        System.out.println(drugaLista);
+        studentStorage.saveListToFile(studentStorage.returnStudentListFilteredByName(studentStorage.getStudentList(), nameToFiltr), filtrPath);
 
-        *//*
-        ArrayList - przechwouje elementy w dynamicznej tablicy (nie musisz podawac jej rozmiaru)
-        dane w pamieci znajduja sie obok siebie
-        -> ZAD01. Jaka jest roznica miedzy stos a sterta?
-         *//*
-        List<String> trzeciaLista = new ArrayList<>();
-        trzeciaLista.add("ALa");
-        trzeciaLista.add("ma");
-        trzeciaLista.add("kota");
+        studentStorage.addStudentToMap("1", new Student("Jan", "Frik", "1231"));
+        studentStorage.addStudentToMap("2", new Student("Aleksandra", "Riki", "65456"));
+        studentStorage.printStudentMap();
 
-        trzeciaLista.addAll(Arrays.asList("ale", "ma", "tez", "adhd"));
-        System.out.println(trzeciaLista);
-
-        System.out.println("Rozmiar kolekcji: " + trzeciaLista.size());
-
-        String ala = trzeciaLista.get(0);
-        System.out.println(ala);
-
-        for (int x = 0; x < trzeciaLista.size(); x++) {
-            System.out.print(trzeciaLista.get(x) + " ");
-        }
-
-        Iterator<String> iterowanie = trzeciaLista.iterator();
-        while (iterowanie.hasNext()) {
-            System.out.print(iterowanie.next() + " ");
-        }
-        System.out.println();
-        System.out.println("Czy Ala znajduje sie w kolekcji? " + trzeciaLista.contains("ALa"));
-        System.out.println();
-
-        List<String> czwartaKolekcja = new ArrayList<>();
-        System.out.println("Czy kolekcja pusta? " + czwartaKolekcja.isEmpty());
-
-
-        System.out.println("\n---------- Praca Domowa ----------\n");
-        PracaDomowa pracaDomowa = new PracaDomowa();
-
-        System.out.println("Zadanie 1: Zadeklaruj ArrayListe intow, dodaj do niej 5 roznych liczb metoda add, wyswietl cala liste\n" +
-                "petla for each: ");
-        pracaDomowa.z1ForEachZListaIntegerI();
-        System.out.println("Zadanie 2: Stworz metode ktora zwroci sume liczb z ArrayListy z 1 zadania:\n"
-                + pracaDomowa.z2ZwracaSumeLiczbZListyIntegerow());
-        System.out.println("Zadanie 3: Stworz metode ktora zwroci liste elementow wiekszych od 3:\n"
-                + pracaDomowa.z3ZwracaListeElementowwiekszychOd3());
-        System.out.println("Zadanie 4: Zadeklaruj Liste Stringow, dodaj do niej kolekcje imion Tomek Ania Tomek Krzys Grzes\n" +
-                "Tomek metoda addAll, nastepnie usun wszystkich Tomkow z tej list:");
-        pracaDomowa.z4ListaStringowBezTomka();
-        System.out.println("Zadanie 5: Napisz metode do zadania 4, ktora zwroci najdluzsze imie:\n"
-                + pracaDomowa.z5ZwracaListeNajdlozszychImion());
-        System.out.println("Zadanie 6: Napisz metode do zadani 4 ktora sprawdza czy podane imie znajduje sie w kolekcje (Ania):\n"
-                + pracaDomowa.z6SprawdzaCzyPodaneImieZnajdujeSieWKolekcji("Ania"));
-        System.out.println("Zadanie 7: Zadeklaruj liste zmiennych typu double, dodaj do listy 5 liczb rzeczywiste i wypisz je\n"
-                + "w kolejnosci rosnacej:");
-        pracaDomowa.z7WypisujeListeDoubleWKolejnosciRosnacej();
-        System.out.println("Zadanie 8: Napisz metode ktora uzupelnia losowa iloscia (od 2-8) liczb losowych z przedziaku 1-10,\n" +
-                "wrzucmy te liczby do nowej listy posortujmy ja odwrotnie i zwracamy ta liste:");
-        pracaDomowa.z8ZwracaListePosortowanychLosowychLiczb();
-        List<Integer> listaDoZadania9 = new ArrayList<>(Arrays.asList(1, 2, 4, 6, 7, 5, 3));
-        System.out.println("Zadanie 9: Napisz metode ktora jako parametr przyjmuje liste intow oraz inta i zwraca liste intow\n" +
-                "ktore sa wieksze niz podany jako parametr int: (1,2,4,6,7,5,3) - (5) \n"
-                + pracaDomowa.z9ZwracaPodanaListeZElementamiWiekszymiOdDanegoInt(listaDoZadania9, 5));
-        List<String> listaDoZadania10 = new ArrayList<>(Arrays.asList("Monika", "Adam", "Ola", "Kamil", "Ola", "Marta", "Ola"));
-        System.out.println("Zadanie 10: Napisz metode ktora przyjmuje liste Stringow i zwraca listę (intow) indeksow wszystkich\n" +
-                "elementow na liscie, ktore sa takie same jak parametr metody np dla Listy Ania Krzys Ania\n" +
-                "Piotr Tomek Ania i imienia Ania output: to 0,2,5: " + listaDoZadania10 + "- Ola \n"
-                + pracaDomowa.z10ZwracaIndeksyZListyDlaPodanegoImienia(listaDoZadania10, "Ola"));*/
     }
 }
