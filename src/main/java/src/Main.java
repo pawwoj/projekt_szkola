@@ -1,7 +1,7 @@
 package src;
 
-import collection.StudentStorage;
-import model.Student;
+import application.Application;
+import service.StudentService;
 
 import java.io.IOException;
 
@@ -23,30 +23,39 @@ Niech ta klasa posiada dwie metody, jedna do dodawania studentow, druga do wyspi
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        StudentStorage studentStorage = new StudentStorage();
-        String savePath = "src\\main\\resources\\save.txt";
+
+        Application app = new Application();
+        app.run();
+
+
+
+        // Wczytaj z klawiatury imie, nazwisko, nr albumu
+        // dodaj studenta do kolekcji
+        // wyswietl calosc
+
+
+/*        String savePath = "src\\main\\resources\\save.txt";
         String filtrPath = "src\\main\\resources\\filtr.txt";
         String loadPath = "src\\main\\resources\\load.txt";
         String nameToFiltr = "Alicja";
 
         Student studentZ = new Student("Tomek", "Dorsz", "345345");
 
-        studentStorage.addStudentToList(studentZ);
-        studentStorage.addStudentToList("Alicja", "Nazwisko1", "242424");
-        studentStorage.addStudentToList("Marcin", "Nazwisko2", "6543654");
-        studentStorage.addStudentToList("Alicja", "Nazwisko9", "6546");
-        studentStorage.printStudentList();
+        studentService.addStudentToList(studentZ);
+        studentService.addStudentToList("Alicja", "Nazwisko1", "242424");
+        studentService.addStudentToList("Marcin", "Nazwisko2", "6543654");
+        studentService.addStudentToList("Alicja", "Nazwisko9", "6546");
+        studentService.printStudentList();
 
-        studentStorage.saveListToFile(studentStorage.getStudentList(), savePath);
+        studentService.saveListToFile(studentService.getStudentList(), savePath);
 
-        studentStorage.addStudentToListFromTxtFile(studentStorage.getStudentList(), loadPath);
-        studentStorage.printStudentList();
+        studentService.addStudentToListFromTxtFile(studentService.getStudentList(), loadPath);
+        studentService.printStudentList();
 
-        studentStorage.saveListToFile(studentStorage.returnStudentListFilteredByName(studentStorage.getStudentList(), nameToFiltr), filtrPath);
+        studentService.saveListToFile(studentService.returnStudentListFilteredByName(studentService.getStudentList(), nameToFiltr), filtrPath);
 
-        studentStorage.addStudentToMap("1", new Student("Jan", "Frik", "1231"));
-        studentStorage.addStudentToMap("2", new Student("Aleksandra", "Riki", "65456"));
-        studentStorage.printStudentMap();
-
+        studentService.addStudentToMap("1", new Student("Jan", "Frik", "1231"));
+        studentService.addStudentToMap("2", new Student("Aleksandra", "Riki", "65456"));
+        studentService.printStudentMap();*/
     }
 }

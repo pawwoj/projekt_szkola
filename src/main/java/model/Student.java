@@ -1,8 +1,6 @@
 package model;
 
 public class Student extends Person{
-    String firstName;
-    String lastName;
     String indexNumber;
 
     public Student(String firstName, String lastName, String indexNumber) {

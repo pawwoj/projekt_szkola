@@ -1,4 +1,4 @@
-package collection;
+package service;
 
 import model.Student;
 
@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StudentStorage {
+public class StudentService {
 
     List<Student> studentList = new ArrayList<>();
     Map<String, Student> studentMap = new HashMap<>();
@@ -33,7 +33,6 @@ public class StudentStorage {
 
     public Student returnGeneratedStudentFromConsole() {
         Scanner scanner = new Scanner(System.in);
-        Student student;
         System.out.println("Enter student first name:");
         String firstName = scanner.nextLine();
         System.out.println("Enter student last name:");
@@ -53,8 +52,7 @@ public class StudentStorage {
             }
         } while (!indexNumberIsCorrect);
 
-        student = new Student(firstName, lastName, indexNumber);
-        return student;
+        return new Student(firstName, lastName, indexNumber);
     }
 
     public void addStudentToList(String firstName, String lastName, String indexNumber) {
