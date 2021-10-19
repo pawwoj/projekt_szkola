@@ -1,6 +1,6 @@
 package service;
 
-import model.Student;
+import model.Lesson;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,10 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class StudentService implements Operation {
+public class LessonService implements Operation {
 
-    Map<Long, Student> studentMap = new LinkedHashMap<>();
-    String fileName = "student.txt";
+    Map<Long, Lesson> lessonMap = new LinkedHashMap<>();
+    String fileName = "lesson.txt";
 
     public String getFileName() {
         return fileName;
@@ -23,18 +23,12 @@ public class StudentService implements Operation {
         this.fileName = fileName;
     }
 
-    public Map<Long, Student> getStudentMap() {
-        return studentMap;
-    }
-
-    public Student returnStudentGeneratedFromConsole() {
+    public Lesson returnLessonGeneratedFromConsole() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter student first name:");
-        String firstName = scanner.nextLine();
-        System.out.println("Enter student last name:");
-        String lastName = scanner.nextLine();
+        System.out.println("Enter lesson name:");
+        String lessonName = scanner.nextLine();
 
-        return new Student(firstName, lastName);
+        return new Lesson(lessonName);
     }
 
     @Override
@@ -47,9 +41,9 @@ public class StudentService implements Operation {
             e.printStackTrace();
         }
 
-        for (Object student : studentMap.values()) {
+        for (Object lesson : lessonMap.values()) {
             try {
-                writer.write(student.toString() + System.lineSeparator());
+                writer.write(lesson.toString() + System.lineSeparator());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -71,22 +65,24 @@ public class StudentService implements Operation {
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 String[] splittedArray = line.split(" ");
-                studentMap.put((long) studentMap.size() + 1, new Student(splittedArray[0], splittedArray[1], (long) studentMap.size() + 1));
+                lessonMap.put((long) lessonMap.size() + 1, new Lesson(splittedArray[0], (long) lessonMap.size() + 1));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    public Map getLessonMap() {
+        return lessonMap;
+    }
+
     @Override
-    public void putModelToMap(Long index, Object model) {
-        studentMap.put(index, (Student) model);
+    public void putModelToMap(Long number, Object model) {
+        lessonMap.put(number, (Lesson) model);
     }
 
     @Override
     public void printModelsValueFromMap() {
-        studentMap.forEach((index, teacher) -> System.out.println(teacher));
+        lessonMap.forEach((aLong, lesson) -> System.out.println(lesson));
     }
 }
-
-

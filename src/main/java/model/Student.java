@@ -1,9 +1,15 @@
 package model;
 
-public class Student extends Person{
-    String indexNumber;
+public class Student extends Person {
+    Long indexNumber;
 
-    public Student(String firstName, String lastName, String indexNumber) {
+    public Student(String firstName, String lastName) {
+        super(firstName, lastName);
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Student(String firstName, String lastName, Long indexNumber) {
         super(firstName, lastName);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,17 +32,17 @@ public class Student extends Person{
         this.lastName = lastName;
     }
 
-    public String getIndexNumber() {
+    public Long getIndexNumber() {
         return indexNumber;
     }
 
-    public void setIndexNumber(String indexNumber) {
+    public void setIndexNumber(Long indexNumber) {
         this.indexNumber = indexNumber;
     }
 
     @Override
     public String toString() {
-        return this.firstName + " " + this.lastName + " " + this.indexNumber;
+        return this.firstName + " " + this.lastName;
     }
 
     /*
