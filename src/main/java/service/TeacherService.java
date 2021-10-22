@@ -1,6 +1,6 @@
 package service;
 
-import model.Student;
+import model.Teacher;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,10 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class StudentService implements Operation {
+public class TeacherService implements Operation {
 
-    Map<Long, Student> studentMap = new LinkedHashMap<>();
-    String fileName = "student.txt";
+    Map<Long, Teacher> teacherMap = new LinkedHashMap<>();
+    String fileName = "teacher.txt";
 
     public String getFileName() {
         return fileName;
@@ -23,21 +23,20 @@ public class StudentService implements Operation {
         this.fileName = fileName;
     }
 
-    public Map<Long, Student> getStudentMap() {
-        return studentMap;
-    }
-
-    public Student returnStudentGeneratedFromConsole() {
+    public Teacher returnTeacherGeneratedFromConsoleWithoutIndex() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter student first name:");
+        System.out.println("Enter teacher first name:");
         String firstName = scanner.nextLine();
-        System.out.println("Enter student last name:");
+        System.out.println("Enter teacher last name:");
         String lastName = scanner.nextLine();
 
-        return new Student(firstName, lastName);
+        return new Teacher(firstName, lastName);
     }
 
-    @Override
+    public Map<Long, Teacher> getTeacherMap() {
+        return teacherMap;
+    }
+
     public void saveObjectMapToFile() {
         FileWriter writer = null;
 
@@ -47,9 +46,9 @@ public class StudentService implements Operation {
             e.printStackTrace();
         }
 
-        for (Object student : studentMap.values()) {
+        for (Object teacher : teacherMap.values()) {
             try {
-                writer.write(student.toString() + System.lineSeparator());
+                writer.write(teacher.toString() + System.lineSeparator());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -71,7 +70,7 @@ public class StudentService implements Operation {
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 String[] splittedArray = line.split(" ");
-                studentMap.put((long) studentMap.size() + 1, new Student(splittedArray[0], splittedArray[1], (long) studentMap.size() + 1));
+                teacherMap.put((long) teacherMap.size() + 1, new Teacher(splittedArray[0], splittedArray[1], (long) teacherMap.size() + 1));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -80,13 +79,11 @@ public class StudentService implements Operation {
 
     @Override
     public void putModelToMap(Long index, Object model) {
-        studentMap.put(index, (Student) model);
+        teacherMap.put(index, (Teacher) model);
     }
 
     @Override
     public void printModelsValueFromMap() {
-        studentMap.forEach((index, teacher) -> System.out.println(teacher));
+        teacherMap.forEach((index, teacher) -> System.out.println(teacher));
     }
 }
-
-
