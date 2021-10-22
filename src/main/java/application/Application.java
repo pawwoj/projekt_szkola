@@ -1,8 +1,5 @@
 package application;
 
-import model.Lesson;
-import model.Student;
-import model.Teacher;
 import service.LessonService;
 import service.StudentService;
 import service.TeacherService;
@@ -12,7 +9,6 @@ import java.util.Scanner;
 public class Application {
 
     public void run() {
-
         StudentService studentService = new StudentService();
         TeacherService teacherService = new TeacherService();
         LessonService lessonService = new LessonService();
@@ -29,26 +25,17 @@ public class Application {
                             "| [7] Exit");
             String option = scanner.nextLine();
             if (option.equals("1")) {
-                Student student = studentService.returnStudentGeneratedFromConsole();
-                studentService.putModelToMap((long) studentService.getStudentMap().size() + 1,
-                        new Student(student.getFirstName(), student.getLastName(),
-                                (long) studentService.getStudentMap().size() + 1));
+                studentService.putModelToMap();
             } else if (option.equals("2")) {
                 studentService.printModelsValueFromMap();
             } else if (option.equals("8")) {
                 studentService.remove();
             } else if (option.equals("3")) {
-                Teacher teacher = teacherService.returnTeacherGeneratedFromConsoleWithoutIndex();
-                teacherService.putModelToMap((long) teacherService.getTeacherMap().size() + 1,
-                        new Teacher(teacher.getFirstName(), teacher.getLastName(),
-                                (long) teacherService.getTeacherMap().size() + 1));
+                teacherService.putModelToMap();
             } else if (option.equals("4")) {
                 teacherService.printModelsValueFromMap();
             } else if (option.equals("5")) {
-                Lesson lesson = lessonService.returnLessonGeneratedFromConsole();
-                lessonService.putModelToMap((long) lessonService.getLessonMap().size() + 1,
-                        new Lesson(lesson.getLessonName(),
-                                (long) lessonService.getLessonMap().size() + 1));
+                lessonService.putModelToMap();
             } else if (option.equals("6")) {
                 lessonService.printModelsValueFromMap();
             } else if (option.equals("7")) {
@@ -63,7 +50,5 @@ public class Application {
             studentService.saveObjectMapToFile();
             lessonService.saveObjectMapToFile();
         }));
-
-
     }
 }

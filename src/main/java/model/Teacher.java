@@ -1,7 +1,6 @@
 package model;
 
 public class Teacher extends Person {
-
     Long index;
 
     public Teacher (String firstName, String lastName){
@@ -21,20 +20,4 @@ public class Teacher extends Person {
     public String toString() {
         return (this.index + " " + this.firstName + " " + this.lastName);
     }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName(){ return lastName;}
-
-    public Long getIndex() {
-        return index;
-    }
-
-    public void setIndex(Long index) {
-        this.index = index;
-    }
-
-
 }
