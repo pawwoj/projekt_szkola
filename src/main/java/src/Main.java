@@ -59,3 +59,22 @@ public class Main {
         studentService.printStudentMap();*/
     }
 }
+
+/*
+1 Jan Kowalski
+3 Imie Nazwisko     ->     Lekcja: [1 , 2]
+4 Imie2 Nazwisko2
+
+1 Lekcja1
+2 Lekcja3
+ */
+
+/*
+Lekcja 5
+- wprowadzic zadanie domowe jako osobne zadania w github board
+- poprawa main (else if wszedzie wolasz 1 metode)
+- persystencja w ID obiektow
+- usuwanie dla teacher + lesson
+
+*sprawdzenie testow
+ */

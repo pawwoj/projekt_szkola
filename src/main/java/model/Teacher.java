@@ -19,7 +19,7 @@ public class Teacher extends Person {
 
     @Override
     public String toString() {
-        return (this.firstName + " " + this.lastName);
+        return (this.index + " " + this.firstName + " " + this.lastName);
     }
 
     public String getFirstName() {
