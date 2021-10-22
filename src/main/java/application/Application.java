@@ -23,7 +23,7 @@ public class Application {
 
         while (true) {
             System.out.println(
-                    "| [1] Add Student | [2] Print all Students |\n" +
+                    "| [1] Add Student | [2] Print all Students | [8] Remove student\n" +
                             "| [3] Add Teacher | [4] Print all Teachers |\n" +
                             "| [5] Add Lesson  | [6] Print all Lessons  |\n" +
                             "| [7] Exit");
@@ -35,6 +35,8 @@ public class Application {
                                 (long) studentService.getStudentMap().size() + 1));
             } else if (option.equals("2")) {
                 studentService.printModelsValueFromMap();
+            } else if (option.equals("8")) {
+                studentService.remove();
             } else if (option.equals("3")) {
                 Teacher teacher = teacherService.returnTeacherGeneratedFromConsoleWithoutIndex();
                 teacherService.putModelToMap((long) teacherService.getTeacherMap().size() + 1,

@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class TeacherService implements Operation {
+public class TeacherService implements Service {
 
     Map<Long, Teacher> teacherMap = new LinkedHashMap<>();
     String fileName = "teacher.txt";
@@ -59,6 +59,11 @@ public class TeacherService implements Operation {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void remove() {
+
     }
 
     @Override
