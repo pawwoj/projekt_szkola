@@ -20,9 +20,9 @@ public class Application {
         while (true) {
             System.out.println(
                     """
-                            | [1] Add Student | [2] Print all Students | [3] Remove student
-                            | [4] Add Teacher | [5] Print all Teachers | [6] Remove teacher
-                            | [7] Add Lesson  | [8] Print all Lessons  | [9] Remove lesson
+                            | [1] Add Student | [2]  Print all Students | [3]  Remove student | [4]  Edit student |
+                            | [5] Add Teacher | [6]  Print all Teachers | [7]  Remove teacher | [8]  Edit teacher |
+                            | [9] Add Lesson  | [10] Print all Lessons  | [11] Remove lesson  | [12] Edit lesson  |
                             | [0] Exit""");
             String option = scanner.nextLine();
             if (option.equals("1")) {
@@ -32,17 +32,23 @@ public class Application {
             } else if (option.equals("3")) {
                 studentService.remove();
             } else if (option.equals("4")) {
-                teacherService.putModelToMap();
+                studentService.edit();
             } else if (option.equals("5")) {
-                teacherService.printModelsValueFromMap();
+                teacherService.putModelToMap();
             } else if (option.equals("6")) {
-                teacherService.remove();
+                teacherService.printModelsValueFromMap();
             } else if (option.equals("7")) {
-                lessonService.putModelToMap();
+                teacherService.remove();
             } else if (option.equals("8")) {
-                lessonService.printModelsValueFromMap();
+                teacherService.edit();
             } else if (option.equals("9")) {
+                lessonService.putModelToMap();
+            } else if (option.equals("10")) {
+                lessonService.printModelsValueFromMap();
+            } else if (option.equals("11")) {
                 lessonService.remove();
+            } else if (option.equals("12")) {
+                lessonService.edit();
             } else if (option.equals("0")) {
                 break;
             } else {

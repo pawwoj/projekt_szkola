@@ -130,4 +130,22 @@ public class LessonService implements Service {
             }
         }
     }
+
+    @Override
+    public void edit() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter object index which you wanna edit");
+        while (true) {
+            String index = scanner.nextLine();
+            Long aLong = Long.valueOf(index);
+            if (lessonMap.containsKey(aLong)) {
+                System.out.println("Enter lesson name:");
+                String lessonName = scanner.nextLine();
+                lessonMap.replace(aLong, new Lesson(aLong, lessonName));
+                break;
+            } else {
+                System.out.println("There is no object with that index.\n Try again: ");
+            }
+        }
+    }
 }

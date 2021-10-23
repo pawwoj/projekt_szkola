@@ -55,7 +55,7 @@ public class TeacherService implements Service {
         return new Teacher((firstFreeIndex - 1), firstName, lastName);
     }
 
-@Override
+    @Override
     public void saveObjectMapToFile() {
         FileWriter writer = null;
 
@@ -107,7 +107,7 @@ public class TeacherService implements Service {
     }
 
     @Override
-    public void putModelToMap (){
+    public void putModelToMap() {
         Teacher teacher = returnTeacherGeneratedFromConsole();
         teacherMap.put((getFirstFreeIndex() - 1), teacher);
     }
@@ -126,6 +126,26 @@ public class TeacherService implements Service {
             Long aLong = Long.valueOf(index);
             if (teacherMap.containsKey(aLong)) {
                 teacherMap.remove(aLong);
+                break;
+            } else {
+                System.out.println("There is no object with that index.\n Try again: ");
+            }
+        }
+    }
+
+    @Override
+    public void edit() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter object index which you wanna edit");
+        while (true) {
+            String index = scanner.nextLine();
+            Long aLong = Long.valueOf(index);
+            if (teacherMap.containsKey(aLong)) {
+                System.out.println("Enter teacher first name:");
+                String firstName = scanner.nextLine();
+                System.out.println("Enter teacher last name:");
+                String lastName = scanner.nextLine();
+                teacherMap.replace(aLong, new Teacher(aLong, firstName, lastName));
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");
