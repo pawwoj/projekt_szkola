@@ -82,10 +82,6 @@ public class LessonService implements Service {
     }
 
     @Override
-    public void remove() {
-    }
-
-    @Override
     public void loadToMapObjectFromFile() {
 
         loadAndSetFirstFreeIndexFromFile();
@@ -117,5 +113,21 @@ public class LessonService implements Service {
     @Override
     public void printModelsValueFromMap() {
         lessonMap.forEach((index, lesson) -> System.out.println(lesson.toStringWithoutIndex()));
+    }
+
+    @Override
+    public void remove() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter object index which you wanna remove");
+        while (true) {
+            String index = scanner.nextLine();
+            Long aLong = Long.valueOf(index);
+            if (lessonMap.containsKey(aLong)) {
+                lessonMap.remove(aLong);
+                break;
+            } else {
+                System.out.println("There is no object with that index.\n Try again: ");
+            }
+        }
     }
 }

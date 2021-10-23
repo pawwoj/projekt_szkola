@@ -1,5 +1,4 @@
 10
-1 si1 si2
 2 si2 sn2
 7 si7 sn7
 8 si8 sn8
