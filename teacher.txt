@@ -1,4 +1,3 @@
 4
 1 ti1 tn1
 2 ti2 tn2
-3 ti1 ti2
