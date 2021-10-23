@@ -1,5 +1,4 @@
-ti1 tn1
-ti2 tn2
-ti3 tn3
-ti4 tn4
-ti5 tn5
+4
+1 ti1 tn1
+2 ti2 tn2
+3 ti1 ti2

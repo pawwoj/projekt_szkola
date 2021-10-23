@@ -2,19 +2,19 @@ package model;
 
 public class Lesson {
     String lessonName;
-    Long lessonIndex;
+    Long index;
 
-    public Lesson(String lessonName) {
+    public Lesson(Long lessonIndex, String lessonName) {
         this.lessonName = lessonName;
+        this.index = lessonIndex;
     }
 
-    public Lesson(String lessonName, Long lessonIndex) {
-        this.lessonName = lessonName;
-        this.lessonIndex = lessonIndex;
+    public String toStringWithoutIndex(){
+        return this.lessonName;
     }
 
     @Override
     public String toString() {
-        return this.lessonName;
+        return this.index + " " + this.lessonName;
     }
 }

@@ -1,23 +1,21 @@
 package model;
 
 public class Student extends Person {
-    Long indexNumber;
+    Long index;
 
-    public Student(String firstName, String lastName) {
+    public Student(Long index, String firstName, String lastName) {
         super(firstName, lastName);
         this.firstName = firstName;
         this.lastName = lastName;
+        this.index = index;
     }
 
-    public Student(String firstName, String lastName, Long indexNumber) {
-        super(firstName, lastName);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.indexNumber = indexNumber;
+    public String toStringWithoutIndex(){
+        return this.firstName + " " + this.lastName;
     }
 
     @Override
     public String toString() {
-        return this.firstName + " " + this.lastName;
+        return this.index + " " + this.firstName + " " + this.lastName;
     }
 }

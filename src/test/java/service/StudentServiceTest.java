@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 
 class StudentServiceTest {
+/*
 
     @Test
     @DisplayName("Add student test, map not empty")
@@ -87,6 +88,10 @@ class StudentServiceTest {
         studentService.saveObjectMapToFile();
         assertThat(temp).hasContent("Jan Kowalski");
     }
+
+
+ */
+
 // Nie działa .. ?
 //    @Test
 //    @DisplayName("Load file to map, map has contetnt")
