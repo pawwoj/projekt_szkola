@@ -10,7 +10,7 @@ public class Teacher extends Person {
         this.index = index;
     }
 
-    public String toStringWithoutIndex(){
+    public String toStringWithoutIndex() {
         return this.firstName + " " + this.lastName;
     }
 
