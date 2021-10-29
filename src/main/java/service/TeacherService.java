@@ -14,7 +14,23 @@ import java.util.Scanner;
 public class TeacherService implements Service {
     Map<Long, Teacher> teacherMap = new LinkedHashMap<>();
     String fileName = "teacher.txt";
-    Long firstFreeIndex;
+    Long firstFreeIndex = 1L;
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public Map<Long, Teacher> getTeacherMap() {
+        return teacherMap;
+    }
 
     public Long getFirstFreeIndex() {
         return firstFreeIndex;
@@ -28,6 +44,10 @@ public class TeacherService implements Service {
         return fileName;
     }
 
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public void loadAndSetFirstFreeIndexFromFile() {
         File file = new File(getFileName());
 
@@ -35,7 +55,9 @@ public class TeacherService implements Service {
             Scanner fileScanner = new Scanner(file).useDelimiter(",");
             try {
                 String line = fileScanner.nextLine();
-                setFirstFreeIndex(Long.valueOf(line));
+                if (isNumeric(line)) {
+                    setFirstFreeIndex(Long.valueOf(line));
+                }
             } catch (NoSuchElementException e) {
                 setFirstFreeIndex(1L);
                 System.out.println("Empty Map - first free index = 1");
@@ -93,11 +115,14 @@ public class TeacherService implements Service {
         try {
             Scanner fileScanner = new Scanner(file).useDelimiter(",");
             int i = 0;
+            Long keyIndex = 1L;
             while (fileScanner.hasNextLine()) {
                 i++;
                 String line = fileScanner.nextLine();
                 String[] splittedArray = line.split(" ");
-                Long keyIndex = Long.valueOf(splittedArray[0]);
+                if (isNumeric(splittedArray[0])) {
+                    keyIndex = Long.valueOf(splittedArray[0]);
+                }
                 if (i > 1)
                     teacherMap.put(keyIndex, new Teacher(keyIndex, splittedArray[1], splittedArray[2]));
             }
