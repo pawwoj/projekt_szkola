@@ -1,7 +1,7 @@
 package service;
 
 public interface Service {
-    void putModelToMap(Long number, Object model);
+    void putModelToMap();
 
     void printModelsValueFromMap();
 

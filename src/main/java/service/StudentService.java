@@ -8,23 +8,41 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class StudentService implements Service {
-
     Map<Long, Student> studentMap = new LinkedHashMap<>();
     String fileName = "student.txt";
+    Long firstFreeIndex;
+
+    public Long getFirstFreeIndex() {
+        return firstFreeIndex;
+    }
+
+    public void setFirstFreeIndex(Long firstFreeIndex) {
+        this.firstFreeIndex = firstFreeIndex;
+    }
 
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+    public void loadAndSetFirstFreeIndexFromFile() {
+        File file = new File(getFileName());
 
-    public Map<Long, Student> getStudentMap() {
-        return studentMap;
+        try {
+            Scanner fileScanner = new Scanner(file).useDelimiter(",");
+            try {
+                String line = fileScanner.nextLine();
+                setFirstFreeIndex(Long.valueOf(line));
+            } catch (NoSuchElementException e) {
+                setFirstFreeIndex(1L);
+                System.out.println("Empty Map - first free index = 1");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Student returnStudentGeneratedFromConsole() {
@@ -33,8 +51,8 @@ public class StudentService implements Service {
         String firstName = scanner.nextLine();
         System.out.println("Enter student last name:");
         String lastName = scanner.nextLine();
-
-        return new Student(firstName, lastName);
+        setFirstFreeIndex(firstFreeIndex + 1);
+        return new Student((firstFreeIndex - 1), firstName, lastName);
     }
 
     @Override
@@ -46,7 +64,11 @@ public class StudentService implements Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        try {
+            writer.write(getFirstFreeIndex() + System.lineSeparator());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (Object student : studentMap.values()) {
             try {
                 writer.write(student.toString() + System.lineSeparator());
@@ -54,7 +76,6 @@ public class StudentService implements Service {
                 e.printStackTrace();
             }
         }
-
         try {
             writer.close();
         } catch (IOException e) {
@@ -64,14 +85,21 @@ public class StudentService implements Service {
 
     @Override
     public void loadToMapObjectFromFile() {
+
+        loadAndSetFirstFreeIndexFromFile();
+
         File file = new File(getFileName());
 
         try {
             Scanner fileScanner = new Scanner(file).useDelimiter(",");
+            int i = 0;
             while (fileScanner.hasNextLine()) {
+                i++;
                 String line = fileScanner.nextLine();
                 String[] splittedArray = line.split(" ");
-                studentMap.put((long) studentMap.size() + 1, new Student(splittedArray[0], splittedArray[1], (long) studentMap.size() + 1));
+                Long keyIndex = Long.valueOf(splittedArray[0]);
+                if (i > 1)
+                    studentMap.put(keyIndex, new Student(keyIndex, splittedArray[1], splittedArray[2]));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -79,27 +107,27 @@ public class StudentService implements Service {
     }
 
     @Override
-    public void putModelToMap(Long index, Object model) {
-        studentMap.put(index, (Student) model);
+    public void putModelToMap() {
+        Student student = returnStudentGeneratedFromConsole();
+        studentMap.put((getFirstFreeIndex() - 1), student);
     }
 
     @Override
     public void printModelsValueFromMap() {
-        studentMap.forEach((index, teacher) -> System.out.println(teacher));
+        studentMap.forEach((index, student) -> System.out.println(student.toStringWithoutIndex()));
     }
 
     @Override
     public void remove() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter student index which you wanna remove");
-        while(true){
+        while (true) {
             String index = scanner.nextLine();
             Long aLong = Long.valueOf(index);
-            if (studentMap.containsKey(aLong)){
+            if (studentMap.containsKey(aLong)) {
                 studentMap.remove(aLong);
                 break;
-            }
-            else {
+            } else {
                 System.out.println("There is no student with that index.\n Try again: ");
             }
         }

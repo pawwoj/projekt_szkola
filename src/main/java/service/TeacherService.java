@@ -8,35 +8,54 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class TeacherService implements Service {
-
     Map<Long, Teacher> teacherMap = new LinkedHashMap<>();
     String fileName = "teacher.txt";
+    Long firstFreeIndex;
+
+    public Long getFirstFreeIndex() {
+        return firstFreeIndex;
+    }
+
+    public void setFirstFreeIndex(Long firstFreeIndex) {
+        this.firstFreeIndex = firstFreeIndex;
+    }
 
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void loadAndSetFirstFreeIndexFromFile() {
+        File file = new File(getFileName());
+
+        try {
+            Scanner fileScanner = new Scanner(file).useDelimiter(",");
+            try {
+                String line = fileScanner.nextLine();
+                setFirstFreeIndex(Long.valueOf(line));
+            } catch (NoSuchElementException e) {
+                setFirstFreeIndex(1L);
+                System.out.println("Empty Map - first free index = 1");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Teacher returnTeacherGeneratedFromConsoleWithoutIndex() {
+    public Teacher returnTeacherGeneratedFromConsole() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter teacher first name:");
         String firstName = scanner.nextLine();
         System.out.println("Enter teacher last name:");
         String lastName = scanner.nextLine();
-
-        return new Teacher(firstName, lastName);
+        setFirstFreeIndex(firstFreeIndex + 1);
+        return new Teacher((firstFreeIndex - 1), firstName, lastName);
     }
 
-    public Map<Long, Teacher> getTeacherMap() {
-        return teacherMap;
-    }
-
+@Override
     public void saveObjectMapToFile() {
         FileWriter writer = null;
 
@@ -45,7 +64,11 @@ public class TeacherService implements Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        try {
+            writer.write(getFirstFreeIndex() + System.lineSeparator());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (Object teacher : teacherMap.values()) {
             try {
                 writer.write(teacher.toString() + System.lineSeparator());
@@ -53,7 +76,6 @@ public class TeacherService implements Service {
                 e.printStackTrace();
             }
         }
-
         try {
             writer.close();
         } catch (IOException e) {
@@ -63,19 +85,25 @@ public class TeacherService implements Service {
 
     @Override
     public void remove() {
-
     }
 
     @Override
     public void loadToMapObjectFromFile() {
+
+        loadAndSetFirstFreeIndexFromFile();
+
         File file = new File(getFileName());
 
         try {
             Scanner fileScanner = new Scanner(file).useDelimiter(",");
+            int i = 0;
             while (fileScanner.hasNextLine()) {
+                i++;
                 String line = fileScanner.nextLine();
                 String[] splittedArray = line.split(" ");
-                teacherMap.put((long) teacherMap.size() + 1, new Teacher(splittedArray[0], splittedArray[1], (long) teacherMap.size() + 1));
+                Long keyIndex = Long.valueOf(splittedArray[0]);
+                if (i > 1)
+                    teacherMap.put(keyIndex, new Teacher(keyIndex, splittedArray[1], splittedArray[2]));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -83,12 +111,13 @@ public class TeacherService implements Service {
     }
 
     @Override
-    public void putModelToMap(Long index, Object model) {
-        teacherMap.put(index, (Teacher) model);
+    public void putModelToMap (){
+        Teacher teacher = returnTeacherGeneratedFromConsole();
+        teacherMap.put((getFirstFreeIndex() - 1), teacher);
     }
 
     @Override
     public void printModelsValueFromMap() {
-        teacherMap.forEach((index, teacher) -> System.out.println(teacher));
+        teacherMap.forEach((index, teacher) -> System.out.println(teacher.toStringWithoutIndex()));
     }
 }
