@@ -132,6 +132,25 @@ public class StudentService implements Service {
             }
         }
     }
-}
 
+    @Override
+    public void edit() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter object index which you wanna edit");
+        while (true) {
+            String index = scanner.nextLine();
+            Long aLong = Long.valueOf(index);
+            if (studentMap.containsKey(aLong)) {
+                System.out.println("Enter student first name:");
+                String firstName = scanner.nextLine();
+                System.out.println("Enter student last name:");
+                String lastName = scanner.nextLine();
+                studentMap.replace(aLong, new Student(aLong, firstName, lastName));
+                break;
+            } else {
+                System.out.println("There is no object with that index.\n Try again: ");
+            }
+        }
+    }
+}
 

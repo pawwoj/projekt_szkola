@@ -11,4 +11,6 @@ public interface Service {
     void saveObjectMapToFile();
 
     void remove();
+
+    void edit();
 }
