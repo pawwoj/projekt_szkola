@@ -120,7 +120,7 @@ public class StudentService implements Service {
     @Override
     public void remove() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter student index which you wanna remove");
+        System.out.println("Enter object index which you wanna remove");
         while (true) {
             String index = scanner.nextLine();
             Long aLong = Long.valueOf(index);
@@ -128,7 +128,7 @@ public class StudentService implements Service {
                 studentMap.remove(aLong);
                 break;
             } else {
-                System.out.println("There is no student with that index.\n Try again: ");
+                System.out.println("There is no object with that index.\n Try again: ");
             }
         }
     }

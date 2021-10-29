@@ -1,6 +1,5 @@
-9
-1 si1 si2
+10
 2 si2 sn2
-4 si4 sn4
 7 si7 sn7
 8 si8 sn8
+9 a1 b1
