@@ -1,21 +1,31 @@
 package model;
 
-public class Student extends Person {
-    Long index;
+import lombok.*;
 
-    public Student(Long index, String firstName, String lastName) {
-        super(firstName, lastName);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.index = index;
-    }
+import java.util.List;
 
-    public String toStringWithoutIndex(){
+@Setter
+@Getter
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class Student {
+    @NonNull
+    private final Long index;
+    @NonNull
+    private final String firstName;
+    @NonNull
+    private final String lastName;
+    @NonNull
+    private final Boolean isActive;
+
+    private List<Lesson> lessonList;
+
+    public String toStringWithoutIndex() {
         return this.firstName + " " + this.lastName;
     }
 
     @Override
     public String toString() {
-        return this.index + " " + this.firstName + " " + this.lastName;
+        return this.index + " " + this.firstName + " " + this.lastName + " " + this.isActive;
     }
 }

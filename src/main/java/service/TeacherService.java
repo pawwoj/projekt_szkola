@@ -15,6 +15,7 @@ public class TeacherService implements Service {
     Map<Long, Teacher> teacherMap = new LinkedHashMap<>();
     String fileName = "teacher.txt";
     Long firstFreeIndex = 1L;
+    int offSet = -1;
 
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
@@ -28,10 +29,6 @@ public class TeacherService implements Service {
         return true;
     }
 
-    public Map<Long, Teacher> getTeacherMap() {
-        return teacherMap;
-    }
-
     public Long getFirstFreeIndex() {
         return firstFreeIndex;
     }
@@ -42,10 +39,6 @@ public class TeacherService implements Service {
 
     public String getFileName() {
         return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
     }
 
     public void loadAndSetFirstFreeIndexFromFile() {
@@ -74,7 +67,7 @@ public class TeacherService implements Service {
         System.out.println("Enter teacher last name:");
         String lastName = scanner.nextLine();
         setFirstFreeIndex(firstFreeIndex + 1);
-        return new Teacher((firstFreeIndex - 1), firstName, lastName);
+        return new Teacher((firstFreeIndex + offSet), firstName, lastName, true);
     }
 
     @Override
@@ -124,7 +117,7 @@ public class TeacherService implements Service {
                     keyIndex = Long.valueOf(splittedArray[0]);
                 }
                 if (i > 1)
-                    teacherMap.put(keyIndex, new Teacher(keyIndex, splittedArray[1], splittedArray[2]));
+                    teacherMap.put(keyIndex, new Teacher(keyIndex, splittedArray[1], splittedArray[2], Boolean.parseBoolean(splittedArray[3])));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -134,12 +127,14 @@ public class TeacherService implements Service {
     @Override
     public void putModelToMap() {
         Teacher teacher = returnTeacherGeneratedFromConsole();
-        teacherMap.put((getFirstFreeIndex() - 1), teacher);
+        teacherMap.put((getFirstFreeIndex() + offSet), teacher);
     }
 
     @Override
     public void printModelsValueFromMap() {
-        teacherMap.forEach((index, teacher) -> System.out.println(teacher.toStringWithoutIndex()));
+        teacherMap.entrySet().stream()
+                .filter(teacherEntry -> teacherEntry.getValue().getIsActive().equals(true))
+                .forEach(teacherEntry -> System.out.println(teacherEntry.getValue().toStringWithoutIndex()));
     }
 
     @Override
@@ -147,10 +142,10 @@ public class TeacherService implements Service {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter object index which you wanna remove");
         while (true) {
-            String index = scanner.nextLine();
-            Long aLong = Long.valueOf(index);
-            if (teacherMap.containsKey(aLong)) {
-                teacherMap.remove(aLong);
+            String indexString = scanner.nextLine();
+            Long keyIndex = Long.valueOf(indexString);
+            if (teacherMap.containsKey(keyIndex) && teacherMap.get(keyIndex).getIsActive()) {
+                teacherMap.replace(keyIndex, new Teacher(keyIndex, teacherMap.get(keyIndex).getFirstName(), teacherMap.get(keyIndex).getLastName(), false));
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");
@@ -163,14 +158,14 @@ public class TeacherService implements Service {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter object index which you wanna edit");
         while (true) {
-            String index = scanner.nextLine();
-            Long aLong = Long.valueOf(index);
-            if (teacherMap.containsKey(aLong)) {
+            String indexString = scanner.nextLine();
+            Long keyIndex = Long.valueOf(indexString);
+            if (teacherMap.containsKey(keyIndex) && teacherMap.get(keyIndex).getIsActive()) {
                 System.out.println("Enter teacher first name:");
                 String firstName = scanner.nextLine();
                 System.out.println("Enter teacher last name:");
                 String lastName = scanner.nextLine();
-                teacherMap.replace(aLong, new Teacher(aLong, firstName, lastName));
+                teacherMap.replace(keyIndex, new Teacher(keyIndex, firstName, lastName, true));
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");

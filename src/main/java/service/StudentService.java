@@ -15,6 +15,7 @@ public class StudentService implements Service {
     Map<Long, Student> studentMap = new LinkedHashMap<>();
     String fileName = "student.txt";
     Long firstFreeIndex = 1L;
+    int offSet = -1;
 
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
@@ -28,10 +29,6 @@ public class StudentService implements Service {
         return true;
     }
 
-    public Map<Long, Student> getStudentMap() {
-        return studentMap;
-    }
-
     public Long getFirstFreeIndex() {
         return firstFreeIndex;
     }
@@ -42,10 +39,6 @@ public class StudentService implements Service {
 
     public String getFileName() {
         return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
     }
 
     public void loadAndSetFirstFreeIndexFromFile() {
@@ -74,7 +67,7 @@ public class StudentService implements Service {
         System.out.println("Enter student last name:");
         String lastName = scanner.nextLine();
         setFirstFreeIndex(firstFreeIndex + 1);
-        return new Student((firstFreeIndex - 1), firstName, lastName);
+        return new Student((firstFreeIndex + offSet), firstName, lastName, true);
     }
 
     @Override
@@ -124,7 +117,7 @@ public class StudentService implements Service {
                     keyIndex = Long.valueOf(splittedArray[0]);
                 }
                 if (i > 1)
-                    studentMap.put(keyIndex, new Student(keyIndex, splittedArray[1], splittedArray[2]));
+                    studentMap.put(keyIndex, new Student(keyIndex, splittedArray[1], splittedArray[2], Boolean.parseBoolean(splittedArray[3])));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -134,12 +127,14 @@ public class StudentService implements Service {
     @Override
     public void putModelToMap() {
         Student student = returnStudentGeneratedFromConsole();
-        studentMap.put((getFirstFreeIndex() - 1), student);
+        studentMap.put((getFirstFreeIndex() + offSet), student);
     }
 
     @Override
     public void printModelsValueFromMap() {
-        studentMap.forEach((index, student) -> System.out.println(student.toStringWithoutIndex()));
+        studentMap.entrySet().stream()
+                .filter(student -> student.getValue().getIsActive().equals(true))
+                .forEach(student -> System.out.println(student.getValue().toStringWithoutIndex()));
     }
 
     @Override
@@ -149,8 +144,8 @@ public class StudentService implements Service {
         while (true) {
             String index = scanner.nextLine();
             Long aLong = Long.valueOf(index);
-            if (studentMap.containsKey(aLong)) {
-                studentMap.remove(aLong);
+            if (studentMap.containsKey(aLong) && studentMap.get(aLong).getIsActive()) {
+                studentMap.replace(aLong, new Student(aLong, studentMap.get(aLong).getFirstName(), studentMap.get(aLong).getLastName(), false));
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");
@@ -165,12 +160,12 @@ public class StudentService implements Service {
         while (true) {
             String index = scanner.nextLine();
             Long aLong = Long.valueOf(index);
-            if (studentMap.containsKey(aLong)) {
+            if (studentMap.containsKey(aLong) && studentMap.get(aLong).getIsActive()) {
                 System.out.println("Enter student first name:");
                 String firstName = scanner.nextLine();
                 System.out.println("Enter student last name:");
                 String lastName = scanner.nextLine();
-                studentMap.replace(aLong, new Student(aLong, firstName, lastName));
+                studentMap.replace(aLong, new Student(aLong, firstName, lastName, true));
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");
@@ -178,4 +173,3 @@ public class StudentService implements Service {
         }
     }
 }
-
