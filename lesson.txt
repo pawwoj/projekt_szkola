@@ -1,4 +1,6 @@
-5
-1 l1
-3 l3e
-4 l4
+7
+1 le1 true
+3 l3e true
+4 l4 true
+5 nowa true
+6 les6 true

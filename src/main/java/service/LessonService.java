@@ -12,9 +12,10 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class LessonService implements Service {
-    Map<Long, Lesson> lessonMap = new LinkedHashMap<>();
-    String fileName = "lesson.txt";
-    Long firstFreeIndex = 1L;
+    private final Map<Long, Lesson> lessonMap = new LinkedHashMap<>();
+    private String fileName = "lesson.txt";
+    private Long firstFreeIndex = 1L;
+    private final int offSet = -1;
 
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
@@ -72,7 +73,7 @@ public class LessonService implements Service {
         System.out.println("Enter lesson name:");
         String lessonName = scanner.nextLine();
         setFirstFreeIndex(firstFreeIndex + 1);
-        return new Lesson((firstFreeIndex - 1), lessonName);
+        return new Lesson((firstFreeIndex + offSet), lessonName, true);
     }
 
     @Override
@@ -122,7 +123,7 @@ public class LessonService implements Service {
                     keyIndex = Long.valueOf(splittedArray[0]);
                 }
                 if (i > 1)
-                    lessonMap.put(keyIndex, new Lesson(keyIndex, splittedArray[1]));
+                    lessonMap.put(keyIndex, new Lesson(keyIndex, splittedArray[1], Boolean.parseBoolean(splittedArray[2])));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -132,12 +133,14 @@ public class LessonService implements Service {
     @Override
     public void putModelToMap() {
         Lesson lesson = returnLessonGeneratedFromConsole();
-        lessonMap.put((getFirstFreeIndex() - 1), lesson);
+        lessonMap.put((getFirstFreeIndex() + offSet), lesson);
     }
 
     @Override
     public void printModelsValueFromMap() {
-        lessonMap.forEach((index, lesson) -> System.out.println(lesson.toStringWithoutIndex()));
+        lessonMap.entrySet().stream()
+                .filter(lessonEntry -> lessonEntry.getValue().getIsActive().equals(true))
+                .forEach(lessonEntry -> System.out.println(lessonEntry.getValue().toStringWithoutIndex()));
     }
 
     @Override
@@ -145,10 +148,10 @@ public class LessonService implements Service {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter object index which you wanna remove");
         while (true) {
-            String index = scanner.nextLine();
-            Long aLong = Long.valueOf(index);
-            if (lessonMap.containsKey(aLong)) {
-                lessonMap.remove(aLong);
+            String indexString = scanner.nextLine();
+            Long keyIndex = Long.valueOf(indexString);
+            if (lessonMap.containsKey(keyIndex) && lessonMap.get(keyIndex).getIsActive()) {
+                lessonMap.replace(keyIndex, new Lesson(keyIndex, lessonMap.get(keyIndex).getLessonName(), false));
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");
@@ -161,12 +164,12 @@ public class LessonService implements Service {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter object index which you wanna edit");
         while (true) {
-            String index = scanner.nextLine();
-            Long aLong = Long.valueOf(index);
-            if (lessonMap.containsKey(aLong)) {
+            String indexString = scanner.nextLine();
+            Long keyIndex = Long.valueOf(indexString);
+            if (lessonMap.containsKey(keyIndex) && lessonMap.get(keyIndex).getIsActive()) {
                 System.out.println("Enter lesson name:");
                 String lessonName = scanner.nextLine();
-                lessonMap.replace(aLong, new Lesson(aLong, lessonName));
+                lessonMap.replace(keyIndex, new Lesson(keyIndex, lessonName, true));
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");
