@@ -1,9 +1,6 @@
-12
-2 si2e sn2e true
-4 si4 sn4 false
-6 si6 sn6 false
-7 si7 sn7 false
-8 sei8 sen8 true
-9 a1 b1 false
-10 si10 sn10 true
-11 si11 sn11 true
+6
+1 Jan Kowalski true [1 Math true TECHNICAL, 2 Rhythmic true MUSIC, 6 Geography true NATURE]
+2 Zenek Kredek true [2 Rhythmic true MUSIC, 4 Chemistry true LAB]
+3 Szary Student false [1 Math true TECHNICAL]
+4 Ania Frania true [1 Math true TECHNICAL, 6 Geography true NATURE]
+5 Ryszard Pisiard true [6 Geography true NATURE]

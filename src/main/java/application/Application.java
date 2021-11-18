@@ -20,34 +20,38 @@ public class Application {
         while (true) {
             System.out.println(
                     """
-                            | [1] Add Student | [2]  Print all Students | [3]  Remove student | [4]  Edit student |
-                            | [5] Add Teacher | [6]  Print all Teachers | [7]  Remove teacher | [8]  Edit teacher |
-                            | [9] Add Lesson  | [10] Print all Lessons  | [11] Remove lesson  | [12] Edit lesson  |
+                            | [1] Add Student | [2]  Print all Students | [3]  Remove student | [4]  Edit student | [5]  Add lesson to student  |
+                            | [6] Add Teacher | [7]  Print all Teachers | [8]  Remove teacher | [9]  Edit teacher | [10] Add student to teacher |
+                            | [11] Add Lesson | [12] Print all Lessons  | [13] Remove lesson  | [14] Edit lesson  |
                             | [0] Exit""");
             String option = scanner.nextLine();
             if (option.equals("1")) {
                 studentService.putModelToMap();
             } else if (option.equals("2")) {
-                studentService.printModelsValueFromMap();
+                studentService.printModelsValueFromMap(lessonService);
             } else if (option.equals("3")) {
                 studentService.remove();
             } else if (option.equals("4")) {
                 studentService.edit();
             } else if (option.equals("5")) {
-                teacherService.putModelToMap();
+                studentService.addLessonThatStudentIsAttending(lessonService);
             } else if (option.equals("6")) {
-                teacherService.printModelsValueFromMap();
+                teacherService.putModelToMap();
             } else if (option.equals("7")) {
-                teacherService.remove();
+                teacherService.printModelsValueFromMap();
             } else if (option.equals("8")) {
-                teacherService.edit();
+                teacherService.remove();
             } else if (option.equals("9")) {
-                lessonService.putModelToMap();
+                teacherService.edit();
             } else if (option.equals("10")) {
-                lessonService.printModelsValueFromMap();
+                //   teacherService.addStudentForTeacher(studentService);
             } else if (option.equals("11")) {
-                lessonService.remove();
+                lessonService.putModelToMap();
             } else if (option.equals("12")) {
+                lessonService.printModelsValueFromMap(studentService);
+            } else if (option.equals("13")) {
+                lessonService.remove();
+            } else if (option.equals("14")) {
                 lessonService.edit();
             } else if (option.equals("0")) {
                 break;
@@ -58,7 +62,7 @@ public class Application {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             teacherService.saveObjectMapToFile();
-            studentService.saveObjectMapToFile();
+            studentService.saveObjectMapToFile(lessonService);
             lessonService.saveObjectMapToFile();
         }));
     }
