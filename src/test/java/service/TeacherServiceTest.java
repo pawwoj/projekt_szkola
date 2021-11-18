@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TeacherServiceTest {
-
+/*
     @Test
     @DisplayName("Add teacher to map - map not empty")
     void whenAddTeacherMapShouldNotBeEmpty() {
@@ -164,4 +164,5 @@ class TeacherServiceTest {
         //Then
         assertThat(teacherService.getTeacherMap().get(3L).toString()).isEqualTo("3 Maria Konopnicka");
     }
+    */
 }

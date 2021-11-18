@@ -1,21 +1,20 @@
 package service;
 
 import model.Lesson;
+import org.apache.commons.lang3.EnumUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
-public class LessonService implements Service {
+public class LessonService {
     private final Map<Long, Lesson> lessonMap = new LinkedHashMap<>();
+    private final int offSet = -1;
     private String fileName = "lesson.txt";
     private Long firstFreeIndex = 1L;
-    private final int offSet = -1;
+
 
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
@@ -72,11 +71,16 @@ public class LessonService implements Service {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter lesson name:");
         String lessonName = scanner.nextLine();
+        System.out.println("Enter classroom name:");
+        String classroom = scanner.nextLine();
+        while (EnumUtils.getEnumIgnoreCase(Lesson.CLASSROOM.class, classroom) == null) {
+            System.out.println("Enter correct classroom name");
+            classroom = scanner.nextLine();
+        }
         setFirstFreeIndex(firstFreeIndex + 1);
-        return new Lesson((firstFreeIndex + offSet), lessonName, true);
+        return new Lesson((firstFreeIndex + offSet), lessonName, true, EnumUtils.getEnumIgnoreCase(Lesson.CLASSROOM.class, classroom), new ArrayList<>());
     }
 
-    @Override
     public void saveObjectMapToFile() {
         FileWriter writer = null;
 
@@ -90,9 +94,9 @@ public class LessonService implements Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (Object lesson : lessonMap.values()) {
+        for (Lesson lesson : lessonMap.values()) {
             try {
-                writer.write(lesson.toString() + System.lineSeparator());
+                writer.write(lesson.toStringWithoutList() + System.lineSeparator());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -104,9 +108,7 @@ public class LessonService implements Service {
         }
     }
 
-    @Override
     public void loadToMapObjectFromFile() {
-
         loadAndSetFirstFreeIndexFromFile();
 
         File file = new File(getFileName());
@@ -123,27 +125,30 @@ public class LessonService implements Service {
                     keyIndex = Long.valueOf(splittedArray[0]);
                 }
                 if (i > 1)
-                    lessonMap.put(keyIndex, new Lesson(keyIndex, splittedArray[1], Boolean.parseBoolean(splittedArray[2])));
+                    lessonMap.put(keyIndex, new Lesson(keyIndex, splittedArray[1], Boolean.parseBoolean(splittedArray[2]), Lesson.CLASSROOM.valueOf(splittedArray[3]), new ArrayList()));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     public void putModelToMap() {
         Lesson lesson = returnLessonGeneratedFromConsole();
         lessonMap.put((getFirstFreeIndex() + offSet), lesson);
     }
 
-    @Override
-    public void printModelsValueFromMap() {
+    public void printModelsValueFromMap(StudentService studentService) {
+        addStudentToStudentListInLesson(studentService);
         lessonMap.entrySet().stream()
                 .filter(lessonEntry -> lessonEntry.getValue().getIsActive().equals(true))
-                .forEach(lessonEntry -> System.out.println(lessonEntry.getValue().toStringWithoutIndex()));
+                .forEach(lessonEntry -> System.out.println(lessonEntry.getValue().toStringWithoutIndex() + " "
+                        + lessonEntry.getValue().stringFromListOfStudentFirstAndLastName()));
     }
 
-    @Override
+    public Lesson getLessonFromMap(Long index) {
+        return lessonMap.get(index);
+    }
+
     public void remove() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter object index which you wanna remove");
@@ -151,7 +156,7 @@ public class LessonService implements Service {
             String indexString = scanner.nextLine();
             Long keyIndex = Long.valueOf(indexString);
             if (lessonMap.containsKey(keyIndex) && lessonMap.get(keyIndex).getIsActive()) {
-                lessonMap.replace(keyIndex, new Lesson(keyIndex, lessonMap.get(keyIndex).getLessonName(), false));
+                lessonMap.get(keyIndex).setIsActive(false);
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");
@@ -159,7 +164,6 @@ public class LessonService implements Service {
         }
     }
 
-    @Override
     public void edit() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter object index which you wanna edit");
@@ -169,11 +173,33 @@ public class LessonService implements Service {
             if (lessonMap.containsKey(keyIndex) && lessonMap.get(keyIndex).getIsActive()) {
                 System.out.println("Enter lesson name:");
                 String lessonName = scanner.nextLine();
-                lessonMap.replace(keyIndex, new Lesson(keyIndex, lessonName, true));
+                lessonMap.get(keyIndex).setLessonName(lessonName);
+                System.out.println("Enter classroom name:");
+                String classroom = scanner.nextLine();
+                while (EnumUtils.getEnumIgnoreCase(Lesson.CLASSROOM.class, classroom) == null) {
+                    System.out.println("Enter correct classroom name");
+                    classroom = scanner.nextLine();
+                    lessonMap.get(keyIndex).setClassroom(EnumUtils.getEnumIgnoreCase(Lesson.CLASSROOM.class, classroom));
+                }
                 break;
             } else {
                 System.out.println("There is no object with that index.\n Try again: ");
             }
         }
+    }
+
+    public Lesson getLesson(Long lessonIndex) {
+        return lessonMap.get(lessonIndex);
+    }
+
+    public void addStudentToStudentListInLesson(StudentService studentService) {
+
+        studentService.getStudentMap().entrySet().stream().filter(longStudentEntry -> longStudentEntry.getValue().getIsActive().equals(true))
+                .forEach(longStudentEntry -> longStudentEntry.getValue().getLessonList()
+                        .forEach(lesson -> lessonMap.get(lesson.getIndex()).getStudentList().clear()));
+
+        studentService.getStudentMap().entrySet().stream().filter(longStudentEntry -> longStudentEntry.getValue().getIsActive().equals(true))
+                .forEach(longStudentEntry -> longStudentEntry.getValue().getLessonList()
+                        .forEach(lesson -> lessonMap.get(lesson.getIndex()).getStudentList().add(longStudentEntry.getValue())));
     }
 }
